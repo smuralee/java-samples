@@ -1,2 +1,1 @@
-# java-samples
-Programming examples in Java
+# Programming examples in Java
