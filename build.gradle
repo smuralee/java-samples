@@ -1,8 +1,0 @@
-subprojects {
-    apply plugin: 'java'
-
-    repositories {
-        // Use Maven Central for resolving dependencies.
-        mavenCentral()
-    }
-}
