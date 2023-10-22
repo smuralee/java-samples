@@ -1,8 +1,6 @@
 package com.smuralee;
 
-import java.io.Serializable;
-
-public class HelloSingleton implements Serializable {
+public class HelloSingleton {
 
     private static HelloSingleton instance = null;
 
