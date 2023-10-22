@@ -17,7 +17,7 @@ public class HelloSingleton implements Serializable {
         return instance;
     }
 
-    public void printMessage() {
-        System.out.println("You have invoked the message printing");
+    public String buildMessage(final String message) {
+        return String.format("The response is - %s", message);
     }
 }
