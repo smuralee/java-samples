@@ -44,3 +44,4 @@ public class HelloSingleton implements Serializable {
                 "You have invoked the singleton instance. The instantiation count is %d and execution count is %d%n",
                 instantiationCount, executionCount);
     }
+}
