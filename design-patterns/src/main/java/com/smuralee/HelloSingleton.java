@@ -1,4 +1,5 @@
 package com.smuralee;
+
 import java.io.Serializable;
 
 public class HelloSingleton implements Serializable {
@@ -43,5 +44,9 @@ public class HelloSingleton implements Serializable {
         System.out.format(
                 "You have invoked the singleton instance. The instantiation count is %d and execution count is %d%n",
                 instantiationCount, executionCount);
+    }
+
+    public String buildMessage(final String message) {
+        return "The response is - ".concat(message);
     }
 }
