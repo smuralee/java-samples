@@ -16,11 +16,12 @@
 
 package com.smuralee.queues;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class QueueUsingArray {
 
-    private final Logger logger = Logger.getLogger(QueueUsingArray.class.getName());
+    private static final Logger logger = Logger.getLogger(QueueUsingArray.class.getName());
 
     private String[] arr;
     private int size;
@@ -38,7 +39,7 @@ public class QueueUsingArray {
 
     public void addToQueue(String element) {
         if (items >= size || end >= size) {
-            logger.warning("Queue is full : " + arr.length + " elements added");
+            logger.log(Level.WARNING, "Queue is full : {0} elements added", arr.length);
         } else {
             // Add the new element to the end of the array
             arr[end] = element;

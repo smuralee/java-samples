@@ -16,20 +16,13 @@
 
 package com.smuralee.matrix;
 
-import org.junit.jupiter.api.BeforeAll;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
 class MatrixOperationsTest {
 
-    private static MatrixOperations matrixOperations;
-
-    @BeforeAll
-    static void setup() {
-        matrixOperations = new MatrixOperations();
-    }
+    private static final MatrixOperations matrixOperations = new MatrixOperations();
 
     @Test
     @DisplayName("GIVEN a matrix, THEN flip the elements horizontally")
