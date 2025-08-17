@@ -140,8 +140,3 @@ public class IslandCounter {
         return count;
     }
 }
-
-/**
- * Time Complexity: O(m × n) where m = number of rows, n = number of columns
- * Space Complexity: O(m × n) in worst case due to recursion stack depth when entire grid forms one snake-like island
- */
