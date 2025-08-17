@@ -1,18 +1,18 @@
 # Graphs and Trees
 
 ## Graph (General)
-• Can have cycles
-• Nodes can have any number of connections
-• Can be disconnected
-• Can be directed or undirected
-• Can have multiple paths between nodes
+- Can have cycles
+- Nodes can have any number of connections
+- Can be disconnected
+- Can be directed or undirected
+- Can have multiple paths between nodes
 
 ## Tree (Special Graph)
-• **No cycles** (acyclic)
-• **Connected** (all nodes reachable)
-• **N nodes, N-1 edges** (minimum edges to stay connected)
-• **Exactly one path** between any two nodes
-• Usually has a designated root node
+- **No cycles** (acyclic)
+- **Connected** (all nodes reachable)
+- **N nodes, N-1 edges** (minimum edges to stay connected)
+- **Exactly one path** between any two nodes
+- Usually has a designated root node
 
 > Trees are graphs, but not all graphs are trees.
 
