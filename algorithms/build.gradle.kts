@@ -1,5 +1,6 @@
 plugins {
-    java
+    id("java")
+    id("com.diffplug.spotless") version "7.2.1"
 }
 
 group = "com.smuralee"
@@ -37,4 +38,10 @@ java {
     }
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+    }
 }
