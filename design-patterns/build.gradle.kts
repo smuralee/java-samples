@@ -6,6 +6,9 @@ plugins {
 group = "com.smuralee"
 version = "1.0"
 
+val junitVersion = "5.13.4"
+val assertjVersion = "3.27.4"
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -13,9 +16,10 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
 
 tasks.test {
