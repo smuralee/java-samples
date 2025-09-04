@@ -51,5 +51,7 @@ java {
 spotless {
     java {
         googleJavaFormat()
+        // Add this to preserve comment formatting
+        toggleOffOn()
     }
 }

@@ -14,7 +14,6 @@
 package com.smuralee;
 
 import com.smuralee.graph.Graph;
-import com.smuralee.graph.GraphResult;
 import com.smuralee.graph.Node;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,10 +27,6 @@ public class Solution {
 
   public static Solution getInstance() {
     return Holder.INSTANCE;
-  }
-
-  private static class Holder {
-    static final Solution INSTANCE = new Solution();
   }
 
   /**
@@ -160,6 +155,46 @@ public class Solution {
     return result;
   }
 
+  private Graph graphBuilder(char[][] grid) {
+    Graph graph = new Graph();
+    Map<String, Node> nodeMap = new HashMap<>();
+
+    // Create nodes for land cells and build graph
+    // The nodeMap and graph is only adding the islands
+    // nodeMap key is x,y and value is node, with data value as (x * row-length + y)
+
+    int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[0].length; j++) {
+        if (grid[i][j] == '1') {
+          String key = i + "," + j;
+          // Create node directly instead of using lambda
+          Node current = nodeMap.get(key);
+          if (current == null) {
+            current = new Node(i * grid[0].length + j);
+            nodeMap.put(key, current);
+          }
+          graph.addVertex(current);
+
+          // Add edges to already processed neighbors
+          for (int[] dir : dirs) {
+            int x = i + dir[0];
+            int y = j + dir[1];
+            if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == '1') {
+              String neighbourKey = x + "," + y;
+              Node neighbour = nodeMap.get(neighbourKey);
+              if (neighbour != null) { // Only connect if neighbor was already processed
+                graph.addEdge(current, neighbour);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return graph;
+  }
+
   /**
    * <b>Problem:</b> Number of Islands using DFS
    *
@@ -176,23 +211,7 @@ public class Solution {
    * <p><b>Output:</b> 3
    */
   public int numberOfIslandsDFS(char[][] grid) {
-    GraphResult result = graphBuilder(grid);
-    Graph graph = result.graph();
-    Map<String, Node> nodeMap = result.nodeMap();
-
-    // Connect adjacent land cells
-    for (int i = 0; i < grid.length; i++) {
-      for (int j = 0; j < grid[0].length; j++) {
-        if (grid[i][j] == '1') {
-          String key = i + "," + j;
-          Node current = nodeMap.get(key);
-
-          // Check 4 directions
-          int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-          addEdgesForIslands(grid, graph, nodeMap, dirs, i, j, current);
-        }
-      }
-    }
+    Graph graph = graphBuilder(grid);
 
     // Count connected components using Graph's DFS
     Set<Node> visited = new HashSet<>();
@@ -225,21 +244,7 @@ public class Solution {
    */
   public int numberOfIslandsBFS(char[][] grid) {
 
-    GraphResult result = graphBuilder(grid);
-    Graph graph = result.graph();
-    Map<String, Node> nodeMap = result.nodeMap();
-
-    // Add edges between adjacent land cells
-    int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    for (int i = 0; i < grid.length; i++) {
-      for (int j = 0; j < grid[0].length; j++) {
-        if (grid[i][j] == '1') {
-          String key = i + "," + j;
-          Node current = nodeMap.get(key);
-          addEdgesForIslands(grid, graph, nodeMap, dirs, i, j, current);
-        }
-      }
-    }
+    Graph graph = graphBuilder(grid);
 
     // Count connected components using BFS
     Set<Node> visited = new HashSet<>();
@@ -255,41 +260,7 @@ public class Solution {
     return count;
   }
 
-  private void addEdgesForIslands(
-      char[][] grid,
-      Graph graph,
-      Map<String, Node> nodeMap,
-      int[][] dirs,
-      int i,
-      int j,
-      Node current) {
-    for (int[] dir : dirs) {
-      int x = i + dir[0];
-      int y = j + dir[1];
-      if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == '1') {
-        String neighbourKey = x + "," + y;
-        Node neighbour = nodeMap.get(neighbourKey);
-        graph.addEdge(current, neighbour);
-      }
-    }
-  }
-
-  private GraphResult graphBuilder(char[][] grid) {
-    Graph graph = new Graph();
-    Map<String, Node> nodeMap = new HashMap<>();
-
-    // Create nodes for land cells and build graph
-    for (int i = 0; i < grid.length; i++) {
-      for (int j = 0; j < grid[0].length; j++) {
-        if (grid[i][j] == '1') {
-          String key = i + "," + j;
-          Node node = new Node(i * grid[0].length + j);
-          nodeMap.put(key, node);
-          graph.addVertex(node);
-        }
-      }
-    }
-
-    return new GraphResult(graph, nodeMap);
+  private static class Holder {
+    static final Solution INSTANCE = new Solution();
   }
 }
