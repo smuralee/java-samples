@@ -24,20 +24,14 @@ import java.util.Set;
 
 public class Solution {
 
-  private static volatile Solution instance;
-
   private Solution() {}
 
-  @SuppressWarnings("DoubleCheckedLocking")
   public static Solution getInstance() {
-    if (instance == null) {
-      synchronized (Solution.class) {
-        if (instance == null) {
-          instance = new Solution();
-        }
-      }
-    }
-    return instance;
+    return Holder.INSTANCE;
+  }
+
+  private static class Holder {
+    static final Solution INSTANCE = new Solution();
   }
 
   /**
