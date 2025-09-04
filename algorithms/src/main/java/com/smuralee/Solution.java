@@ -176,14 +176,14 @@ public class Solution {
           }
           graph.addVertex(current);
 
-          // Add edges to already processed neighbors
+          // Add edges to already processed neighbours
           for (int[] dir : dirs) {
             int x = i + dir[0];
             int y = j + dir[1];
             if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == '1') {
               String neighbourKey = x + "," + y;
               Node neighbour = nodeMap.get(neighbourKey);
-              if (neighbour != null) { // Only connect if neighbor was already processed
+              if (neighbour != null) { // Only connect if neighbour was already processed
                 graph.addEdge(current, neighbour);
               }
             }
@@ -258,6 +258,38 @@ public class Solution {
     }
 
     return count;
+  }
+
+  /**
+   * <b>Problem:</b> Clone Graph using DFS
+   *
+   * <p>Given a reference of a node in a connected undirected graph, return a deep copy (clone) of
+   * the graph. Each node in the graph contains a value (int) and a list (List[Node]) of its
+   * neighbours.
+   *
+   * @param node the starting node of the graph to clone
+   * @return the cloned node corresponding to the input node
+   */
+  public Node cloneGraph(Node node) {
+    if (node == null) return null;
+
+    Map<Node, Node> visited = new HashMap<>();
+    return dfsClone(node, visited);
+  }
+
+  private Node dfsClone(Node node, Map<Node, Node> visited) {
+    if (visited.containsKey(node)) {
+      return visited.get(node);
+    }
+
+    Node clone = new Node(node.getVal());
+    visited.put(node, clone);
+
+    for (Node neighbour : node.getNeighbours()) {
+      clone.getNeighbours().add(dfsClone(neighbour, visited));
+    }
+
+    return clone;
   }
 
   private static class Holder {

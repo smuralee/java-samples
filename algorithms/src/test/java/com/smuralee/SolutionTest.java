@@ -15,7 +15,10 @@ package com.smuralee;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.smuralee.graph.Node;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -93,5 +96,46 @@ class SolutionTest {
     assertEquals(0, solution.numberOfIslandsBFS(grid2));
     assertEquals(3, solution.numberOfIslandsBFS(grid3));
     assertEquals(1, solution.numberOfIslandsBFS(grid4));
+  }
+
+  @Test
+  @DisplayName("Validate clone graph algorithm")
+  void cloneGraph() {
+    // Test null input
+    assertNull(solution.cloneGraph(null));
+
+    // Test single node
+    Node single = new Node(1);
+    Node clonedSingle = solution.cloneGraph(single);
+    assertEquals(1, clonedSingle.getVal());
+    assertEquals(0, clonedSingle.getNeighbours().size());
+    assertNotSame(single, clonedSingle);
+
+    // Test connected graph: 1-2-3-1 (triangle)
+    Node node1 = new Node(1);
+    Node node2 = new Node(2);
+    Node node3 = new Node(3);
+
+    node1.getNeighbours().add(node2);
+    node1.getNeighbours().add(node3);
+    node2.getNeighbours().add(node1);
+    node2.getNeighbours().add(node3);
+    node3.getNeighbours().add(node1);
+    node3.getNeighbours().add(node2);
+
+    Node cloned = solution.cloneGraph(node1);
+
+    assertEquals(1, cloned.getVal());
+    assertEquals(2, cloned.getNeighbours().size());
+    assertNotSame(node1, cloned);
+
+    // Verify structure is preserved
+    Node clonedNode2 = cloned.getNeighbours().get(0);
+    Node clonedNode3 = cloned.getNeighbours().get(1);
+
+    assertEquals(2, clonedNode2.getVal());
+    assertEquals(3, clonedNode3.getVal());
+    assertEquals(2, clonedNode2.getNeighbours().size());
+    assertEquals(2, clonedNode3.getNeighbours().size());
   }
 }

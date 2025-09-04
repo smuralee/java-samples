@@ -13,4 +13,23 @@
  */
 package com.smuralee.graph;
 
-public record Node(int data) {}
+import java.util.ArrayList;
+import java.util.List;
+
+public class Node {
+  private final int val;
+  private final List<Node> neighbours;
+
+  public Node(int val) {
+    this.val = val;
+    this.neighbours = new ArrayList<>();
+  }
+
+  public int getVal() {
+    return val;
+  }
+
+  public List<Node> getNeighbours() {
+    return neighbours;
+  }
+}
