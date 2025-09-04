@@ -1,0 +1,204 @@
+BINARY SEARCH VISUAL REPRESENTATION
+===================================
+
+Searching for target: 4 in sorted array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Initial State:
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+  0   1   2   3   4   5   6   7   8
+  ↑               ↑               ↑
+left            mid             right
+
+Iteration 1:
+left = 0, right = 8, mid = 4
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  target = 4
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+  ↑               ↑               ↑
+left            mid             right
+
+Compare: arr[4] = 5 vs target = 4
+5 > 4 → search LEFT half
+                ↓
+New range: [0, 3]
+
+Iteration 2:
+left = 0, right = 3, mid = 1
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  target = 4
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+  ↑   ↑       ↑
+left mid     right
+
+Compare: arr[1] = 2 vs target = 4
+2 < 4 → search RIGHT half
+New range: [2, 3]
+
+Iteration 3:
+left = 2, right = 3, mid = 2
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  target = 4
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+          ↑   ↑
+        left  right
+        mid
+
+Compare: arr[2] = 3 vs target = 4
+3 < 4 → search RIGHT half
+New range: [3, 3]
+
+Iteration 4:
+left = 3, right = 3, mid = 3
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  target = 4
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+              ↑
+            left
+            right
+            mid
+
+Compare: arr[3] = 4 vs target = 4
+4 == 4 → FOUND! ✓
+Return index: 3
+
+SEARCH SPACE VISUALIZATION:
+
+Initial:    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            ├─────────────────────────┤
+            left                  right
+
+Iteration 1: mid = 4, arr[4] = 5 > 4
+            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            ├─────────┤
+            left    right
+
+Iteration 2: mid = 1, arr[1] = 2 < 4
+            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                  ├───┤
+                left right
+
+Iteration 3: mid = 2, arr[2] = 3 < 4
+            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                     ├┤
+                   left
+                   right
+
+Iteration 4: mid = 3, arr[3] = 4 == 4
+            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                     ✓
+                   FOUND
+
+EXAMPLE: Target NOT FOUND (searching for 10)
+
+Initial:
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  target = 10
+└───┴───┴───┴───┴───┴───┴───┴───┴───┘
+  ↑               ↑               ↑
+left            mid             right
+
+Iteration 1: mid = 4, arr[4] = 5 < 10
+            Search RIGHT: [5, 8]
+
+Iteration 2: mid = 6, arr[6] = 7 < 10
+            Search RIGHT: [7, 8]
+
+Iteration 3: mid = 7, arr[7] = 8 < 10
+            Search RIGHT: [8, 8]
+
+Iteration 4: mid = 8, arr[8] = 9 < 10
+            left = 9, right = 8
+            left > right → NOT FOUND ✗
+
+ALGORITHM FLOWCHART:
+
+┌─────────────┐
+│   START     │
+└─────┬───────┘
+      │
+      ▼
+┌─────────────┐
+│left = 0     │
+│right = n-1  │
+└─────┬───────┘
+      │
+      ▼
+┌─────────────┐    No
+│left <= right├────────┐
+└─────┬───────┘        │
+      │ Yes            │
+      ▼                │
+┌─────────────┐        │
+│mid = (left+ │        │
+│     right)/2│        │
+└─────┬───────┘        │
+      │                │
+      ▼                │
+┌─────────────┐        │
+│arr[mid]==   │        │
+│  target?    │        │
+└─────┬───────┘        │
+      │ Yes            │
+      ▼                │
+┌─────────────┐        │
+│Return mid   │        │
+└─────────────┘        │
+                       │
+┌─────────────┐        │
+│arr[mid] <   │        │
+│  target?    │        │
+└─────┬───────┘        │
+      │ Yes            │
+      ▼                │
+┌─────────────┐        │
+│left=mid+1   │        │
+└─────┬───────┘        │
+      │                │
+      └────────────────┤
+                       │
+┌─────────────┐        │
+│right=mid-1  │        │
+└─────┬───────┘        │
+      │                │
+      └────────────────┘
+                       │
+                       ▼
+                ┌─────────────┐
+                │Return -1    │
+                │(NOT FOUND)  │
+                └─────────────┘
+
+STEP-BY-STEP COMPARISON TABLE:
+
+┌──────┬──────┬───────┬─────┬──────────┬────────────┬──────────┐
+│ Step │ Left │ Right │ Mid │ arr[mid] │ Comparison │ Action   │
+├──────┼──────┼───────┼─────┼──────────┼────────────┼──────────┤
+│  1   │  0   │   8   │  4  │    5     │   5 > 4    │right = 3 │
+│  2   │  0   │   3   │  1  │    2     │   2 < 4    │left = 2  │
+│  3   │  2   │   3   │  2  │    3     │   3 < 4    │left = 3  │
+│  4   │  3   │   3   │  3  │    4     │   4 == 4   │ FOUND!   │
+└──────┴──────┴───────┴─────┴──────────┴────────────┴──────────┘
+
+BINARY SEARCH PROPERTIES:
+
+• Array MUST be sorted
+• Eliminates half the search space each iteration
+• Logarithmic time complexity: O(log n)
+• Space complexity: O(1) iterative, O(log n) recursive
+• Best case: O(1) - target at middle
+• Worst case: O(log n) - target at end or not found
+
+SEARCH SPACE REDUCTION:
+n → n/2 → n/4 → n/8 → ... → 1
+
+For array of size 9:
+9 → 4 → 2 → 1 → FOUND (4 steps max)
+
+Maximum steps = ⌊log₂(n)⌋ + 1
+
+When to use each:
+• Sort + Binary Search → Multiple searches on same data
+• Linear Search → Single search, small arrays
+• Hash Table → Frequent searches, have extra memory

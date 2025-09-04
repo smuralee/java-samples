@@ -13,25 +13,6 @@
  */
 package com.smuralee.graph;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Map;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-class IslandCounterTest {
-
-  private static final IslandCounter islandCounter = new IslandCounter();
-
-  @Test
-  @DisplayName("Given a 2x2 grid, identify the number of islands")
-  void numIslands() {
-    char[][] grid = {
-      {'L', 'L', 'W', 'W', 'W'},
-      {'W', 'L', 'W', 'W', 'L'},
-      {'L', 'W', 'W', 'L', 'L'},
-      {'W', 'W', 'W', 'W', 'W'},
-      {'L', 'W', 'L', 'L', 'W'}
-    };
-    assertEquals(5, islandCounter.numIslands(grid));
-  }
-}
+public record GraphResult(Graph graph, Map<String, Node> nodeMap) {}

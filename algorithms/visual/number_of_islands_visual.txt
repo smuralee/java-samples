@@ -1,0 +1,247 @@
+NUMBER OF ISLANDS VISUAL REPRESENTATION
+======================================
+
+Problem: Count connected components of '1's in a 2D grid
+Sample Grid:
+┌───┬───┬───┬───┬───┐
+│ 1 │ 1 │ 0 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 1 │ 1 │ 0 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+ (0,0) to (0,4) → row 0
+ (1,0) to (1,4) → row 1
+ (2,0) to (2,4) → row 2
+ (3,0) to (3,4) → row 3
+
+Expected Result: 3 islands
+
+=== BFS TRAVERSAL (Breadth-First Search) ===
+=============================================
+
+ISLAND 1 DISCOVERY - Starting at (0,0):
+---------------------------------------
+
+Step 1: Initialize BFS from (0,0)
+┌───┬───┬───┬───┬───┐
+│[S]│ 1 │ 0 │ 0 │ 0 │  Queue: [(0,0)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0)}
+│ 1 │ 1 │ 0 │ 0 │ 0 │  Current: (0,0)
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 1 │ 0 │ 0 │  [S] = Start
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 2: Process (0,0), add neighbors to queue
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Queue: [(0,1), (1,0)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,0)}
+│[3]│ 1 │ 0 │ 0 │ 0 │  Processing: (0,0) → neighbors: right(0,1), down(1,0)
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 1 │ 0 │ 0 │  Numbers show discovery order
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 3: Process (0,1), add neighbors to queue
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Queue: [(1,0), (1,1)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,0), (1,1)}
+│[3]│[4]│ 0 │ 0 │ 0 │  Processing: (0,1) → new neighbor: down(1,1)
+├───┼───┼───┼───┼───┤  (0,0) already visited, skip
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 4: Process (1,0), no new neighbors
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Queue: [(1,1)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,0), (1,1)}
+│[3]│[4]│ 0 │ 0 │ 0 │  Processing: (1,0) → all neighbors already visited
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 5: Process (1,1), no new neighbors
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Queue: []
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,0), (1,1)}
+│[3]│[4]│ 0 │ 0 │ 0 │  Processing: (1,1) → all neighbors already visited
+├───┼───┼───┼───┼───┤  ISLAND 1 COMPLETE - 4 cells
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+ISLAND 2 DISCOVERY - Starting at (2,2):
+---------------------------------------
+
+Step 6: Initialize BFS from (2,2)
+┌───┬───┬───┬───┬───┐
+│[■]│[■]│ 0 │ 0 │ 0 │  Queue: [(2,2)]
+├───┼───┼───┼───┼───┤  Visited: {(2,2)}
+│[■]│[■]│ 0 │ 0 │ 0 │  Current: (2,2)
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │[S]│ 0 │ 0 │  [■] = Previous island
+├───┼───┼───┼───┼───┤  [S] = New start
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+                ↓
+Step 7: Process (2,2), no neighbors (single cell island)
+┌───┬───┬───┬───┬───┐
+│[■]│[■]│ 0 │ 0 │ 0 │  Queue: []
+├───┼───┼───┼───┼───┤  Visited: {(2,2)}
+│[■]│[■]│ 0 │ 0 │ 0 │  Processing: (2,2) → no valid neighbors
+├───┼───┼───┼───┼───┤  ISLAND 2 COMPLETE - 1 cell
+│ 0 │ 0 │[5]│ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+ISLAND 3 DISCOVERY - Starting at (3,3):
+---------------------------------------
+
+Step 8: Initialize BFS from (3,3)
+┌───┬───┬───┬───┬───┐
+│[■]│[■]│ 0 │ 0 │ 0 │  Queue: [(3,3)]
+├───┼───┼───┼───┼───┤  Visited: {(3,3)}
+│[■]│[■]│ 0 │ 0 │ 0 │  Current: (3,3)
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │[■]│ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │[S]│ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 9: Process (3,3), add neighbor to queue
+┌───┬───┬───┬───┬───┐
+│[■]│[■]│ 0 │ 0 │ 0 │  Queue: [(3,4)]
+├───┼───┼───┼───┼───┤  Visited: {(3,3), (3,4)}
+│[■]│[■]│ 0 │ 0 │ 0 │  Processing: (3,3) → neighbor: right(3,4)
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │[■]│ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │[6]│[7]│
+└───┴───┴───┴───┴───┘
+
+Step 10: Process (3,4), no new neighbors
+┌───┬───┬───┬───┬───┐
+│[■]│[■]│ 0 │ 0 │ 0 │  Queue: []
+├───┼───┼───┼───┼───┤  Visited: {(3,3), (3,4)}
+│[■]│[■]│ 0 │ 0 │ 0 │  Processing: (3,4) → all neighbors already visited
+├───┼───┼───┼───┼───┤  ISLAND 3 COMPLETE - 2 cells
+│ 0 │ 0 │[■]│ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │[6]│[7]│
+└───┴───┴───┴───┴───┘
+
+BFS FINAL RESULT: 3 islands found
+Discovery order: Level-by-level expansion from each starting point
+
+=== DFS TRAVERSAL (Depth-First Search) ===
+==========================================
+
+ISLAND 1 DISCOVERY - Starting at (0,0):
+---------------------------------------
+
+Step 1: DFS from (0,0) - go deep first
+┌───┬───┬───┬───┬───┐
+│[S]│ 1 │ 0 │ 0 │ 0 │  Call Stack: [dfs(0,0)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0)}
+│ 1 │ 1 │ 0 │ 0 │ 0 │  Current: (0,0)
+├───┼───┼───┼───┼───┤  Choose first neighbor: right(0,1)
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 2: DFS to (0,1) - continue deep
+┌───┬───┬───┬───┬───┐
+│[1]│[S]│ 0 │ 0 │ 0 │  Call Stack: [dfs(0,0), dfs(0,1)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1)}
+│ 1 │ 1 │ 0 │ 0 │ 0 │  Current: (0,1)
+├───┼───┼───┼───┼───┤  Choose first unvisited neighbor: down(1,1)
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 3: DFS to (1,1) - continue deep
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Call Stack: [dfs(0,0), dfs(0,1), dfs(1,1)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,1)}
+│ 1 │[S]│ 0 │ 0 │ 0 │  Current: (1,1)
+├───┼───┼───┼───┼───┤  Choose first unvisited neighbor: left(1,0)
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 4: DFS to (1,0) - deepest point reached
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Call Stack: [dfs(0,0), dfs(0,1), dfs(1,1), dfs(1,0)]
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,1), (1,0)}
+│[S]│[3]│ 0 │ 0 │ 0 │  Current: (1,0)
+├───┼───┼───┼───┼───┤  All neighbors already visited → BACKTRACK
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+Step 5: Backtrack to (1,1), then (0,1), then (0,0)
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │  Call Stack: [] (all calls returned)
+├───┼───┼───┼───┼───┤  Visited: {(0,0), (0,1), (1,1), (1,0)}
+│[4]│[3]│ 0 │ 0 │ 0 │  ISLAND 1 COMPLETE - 4 cells
+├───┼───┼───┼───┼───┤  Path: (0,0)→(0,1)→(1,1)→(1,0)→backtrack
+│ 0 │ 0 │ 1 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │ 1 │ 1 │
+└───┴───┴───┴───┴───┘
+
+ISLAND 2 & 3 DISCOVERY:
+-----------------------
+(Similar single-step process for (2,2) and multi-step for (3,3)→(3,4))
+
+Final Grid with DFS discovery order:
+┌───┬───┬───┬───┬───┐
+│[1]│[2]│ 0 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│[4]│[3]│ 0 │ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │[5]│ 0 │ 0 │
+├───┼───┼───┼───┼───┤
+│ 0 │ 0 │ 0 │[6]│[7]│
+└───┴───┴───┴───┴───┘
+
+DFS FINAL RESULT: 3 islands found
+Discovery order: Deep exploration before backtracking
+
+=== ALGORITHM COMPARISON ===
+============================
+
+BFS Characteristics:
+• Uses Queue (FIFO - First In, First Out)
+• Explores neighbors level by level
+• Memory usage: O(width of graph)
+• Guarantees shortest path in unweighted graphs
+• Discovery pattern: Breadth-first expansion
+
+DFS Characteristics:
+• Uses Stack/Recursion (LIFO - Last In, First Out)
+• Explores as deep as possible before backtracking
+• Memory usage: O(depth of graph)
+• May not find the shortest path
+• Discovery pattern: Depth-first exploration
+
+Time Complexity: Both O(V + E) where V = vertices, E = edges
+Space Complexity: BFS O(V), DFS O(V) for visited set + O(d) for recursion depth
+
+Both algorithms correctly identify all connected components (islands).
+The choice depends on the specific requirements of your problem.
