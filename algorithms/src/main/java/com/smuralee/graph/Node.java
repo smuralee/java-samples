@@ -15,7 +15,9 @@ package com.smuralee.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 
+@Getter
 public class Node {
   private final int val;
   private final List<Node> neighbours;
@@ -23,13 +25,5 @@ public class Node {
   public Node(int val) {
     this.val = val;
     this.neighbours = new ArrayList<>();
-  }
-
-  public int getVal() {
-    return val;
-  }
-
-  public List<Node> getNeighbours() {
-    return neighbours;
   }
 }
